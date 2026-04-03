@@ -13,6 +13,7 @@ private:
 public:
 
     Snake();
+    Snake(const std::deque<Cell>& initialBody, Direction initialDirection);
 
     void move(bool grow);
     void setDirection(Direction newDirection);
@@ -23,5 +24,6 @@ public:
     Cell getHead() const;
     Cell getNextHead() const;
     
-    bool hitsItself(const Cell& nextHead, bool willGrow) const;
+    bool hitsItself(const Cell& nextHead, bool willGrow, const std::deque<Cell>& body) const; //used for self collision and collision with other snake
+
 };

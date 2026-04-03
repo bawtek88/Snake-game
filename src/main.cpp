@@ -30,6 +30,10 @@ int main()
     snakeBodyPart.setSize(sf::Vector2f(cellSize, cellSize)); 
     snakeBodyPart.setFillColor(sf::Color::Green);
 
+    sf::RectangleShape enemyBodyPart;
+    enemyBodyPart.setSize(sf::Vector2f(cellSize, cellSize));
+    enemyBodyPart.setFillColor(sf::Color::Blue);
+
     sf::Clock clock;
 
     sf::Font font;
@@ -45,12 +49,14 @@ int main()
     text.setPosition({10.f, 10.f});
     
     sf::Text startText(font);
+    sf::Time elapsed = clock.getElapsedTime();
     startText.setFont(font);
     startText.setCharacterSize(48);
     startText.setFillColor(sf::Color::White);
-    sf::Time elapsed = clock.getElapsedTime();
+    
     startText.setString(std::to_string(int(elapsed.asSeconds())));
     startText.setPosition({uWidth/2.f, uHeight/2.f});
+
     while (window.isOpen()) 
     {
         while (const std::optional event = window.pollEvent()) 
@@ -100,10 +106,12 @@ int main()
         {
             game.update();
             Cell next = game.getSnake().getNextHead();
+            Cell nextEnemy = game.getEnemy().getNextHead();//verify behavior
             clock.restart();
         }
         
         bool isHead = true;
+        bool isEnemyHead = true;
         if(start)
         {
             for(const Cell& bodyPart : game.getSnake().getBody())
@@ -121,6 +129,25 @@ int main()
                 }
                 window.draw(snakeBodyPart);
             
+            }
+            if(game.isEnemyAlive())
+            {
+                for(const Cell& bodyPartEnemy : game.getEnemy().getBody())
+                {
+
+                    enemyBodyPart.setPosition({bodyPartEnemy.x*cellSize, bodyPartEnemy.y*cellSize});
+                    if(isEnemyHead)
+                    {
+                        enemyBodyPart.setFillColor(sf::Color::Yellow);
+                        isEnemyHead = false;
+                    }
+                    else
+                    {
+                        enemyBodyPart.setFillColor(sf::Color::Blue);
+                    }
+                    window.draw(enemyBodyPart);
+                
+                }
             }
         }
         rectangle.setPosition({game.getFood().x*cellSize, game.getFood().y*cellSize});

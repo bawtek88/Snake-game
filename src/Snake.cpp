@@ -6,6 +6,12 @@ Snake::Snake()
     direction = Direction::RIGHT;
 }
 
+Snake::Snake(const std::deque<Cell>& initialBody, Direction initialDirection)
+{
+    body = initialBody;
+    direction = initialDirection;
+}
+
 const std::deque<Cell>& Snake::getBody() const
 {
     return body;
@@ -35,7 +41,7 @@ bool Snake::occupiesCell(const Cell& cell) const
     return false;
 }
 
-bool Snake::hitsItself(const Cell& nextHead, bool willGrow) const
+bool Snake::hitsItself(const Cell& nextHead, bool willGrow, const std::deque<Cell>& body) const
 {
     if(willGrow==true)
     {
@@ -61,6 +67,8 @@ bool Snake::hitsItself(const Cell& nextHead, bool willGrow) const
         return false;
     }
 }
+
+
 
 void Snake::move(bool grow)
 {

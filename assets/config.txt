@@ -1,4 +1,4 @@
-boardWidth=50
-boardHeight=50
-tickSpeed=0.05f
-cellSize=10.f
+boardWidth=40
+boardHeight=40
+tickSpeed=0.1f
+cellSize=25.f
