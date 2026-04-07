@@ -1,7 +1,7 @@
 #include "Game.hpp"
 #include <cstdlib>
 #include <iostream>
-#include "Player.cpp"
+#include "Player.hpp"
 Game::Game(int width, int height) : boardWidth(width), boardHeight(height), score(0), gameOver(false), playerAlive(true), enemyAlive(true)
 {
     player = Player();
@@ -72,7 +72,7 @@ void Game::update()
         playerAlive = false;
         return;
     }
-    if(enemy.hitsItself(nextEnemyHead, willEnemyGrow, snake.getBody()) && enemyAlive) // enemy collision with  player
+    if(enemy.hitsItself(nextEnemyHead, willGrow, snake.getBody()) && enemyAlive) // enemy collision with  player
     {
         std::cout << "Enemy hit player\n";
         enemyAlive = false;
@@ -191,7 +191,7 @@ void Game::spawnFood()
     food.x = rand() % boardWidth;
     food.y = rand() % boardHeight;
 
-    while(snake.occupiesCell(food))
+    while(snake.occupiesCell(food) || (enemyAlive && enemy.occupiesCell(food)))
     {
         food.x = rand() % boardWidth;
         food.y = rand() % boardHeight;
